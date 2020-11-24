@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content%}
+
+
+<form action="{% url 'addstocks' %}" class="form-inline my-2 my-lg-0" method="POST" >
+      {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Add Stock" name="ticker" >
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search Stock Symbols</button>
+</form>
+<br>
+
+<table class="table table-bordered table-hover">
+	<caption>List of stocks</caption>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Company Name</th>
+      <th scope="col">Latest Price</th>
+      <th scope="col">Market Capital</th>
+      <th scope="col">Previous Close</th>
+      <th scope="col">YTD Change</th>
+      <th scope="col">52w High</th>
+      <th scope="col">52w Low</th>
+      
+
+    </tr>
+  </thead>
+  <tbody>
+{% if ticker %}
+  	{% for list_item in output %}
+	    <tr>
+	    	<th scope="row">{{ list_item.id }}</th>
+	    	<td>{{list_item.symbol}}</td>
+	    	<td>${{ list_item.latestPrice }}</td>
+	    	<td>${{ list_item.marketCap }}</td>
+	    	<td>${{ list_item.previousClose }}</td>
+	    	<td>{{ list_item.ytdChange }}%</td>
+	    	<td>${{ list_item.week52High }}</td>
+	    	<td>${{ list_item.week52Low }}</td>
+	    	
+	    </tr> 
+	{% endfor %}
+
+{% endif %}
+
+  </tbody>
+</table>
+
+<br><br>
+{% for list_item in output %}
+
+	<div class="card border-secondary mb-3" style="max-width: 35rem;">
+	  <div class="card-header">{{list_item.symbol}}</div>
+	  <div class="card-body ">
+	    <h5 class="card-title"><strong>{{list_item.companyName}} </strong></h5>
+	    <p class="card-text"> Latest Price : ${{ list_item.latestPrice }} at {{ list_item.latestTime }}<br></p>
+	    <p class="card-text"> Market Capital : {{ list_item.marketCap }}<br></p>
+	    <p class="card-text">Previous Close : ${{ list_item.previousClose }} <br> </p>
+	    <p class="card-text"> Previous Volume : {{ list_item.previousVolume }} <br></p>
+	    <p class="card-text"> YTD Change : {{ list_item.ytdChange }}<br></p>
+	    <p class="card-text">52w High : ${{ list_item.week52High }} <br> </p>
+	    <p class="card-text"> 52w Low : ${{ list_item.week52Low }} <br><br><br></p>
+	  </div>
+	</div>
+	
+
+{% endfor %}
+
+{% endblock %}

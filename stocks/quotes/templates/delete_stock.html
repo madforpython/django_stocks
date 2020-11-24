@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content%}
+
+
+<h1>Delete Stocks</h1>
+
+	{% for item in ticker %}
+		{{ item }} - <a href="{% url 'delete' item.id %}">Delete Stocks</a><br>
+	{% endfor %}
+{% endblock %}
+

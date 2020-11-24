@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+
+{% block content%}
+
+{% if ticker %}
+	{{ ticker }}
+{% endif %}
+
+{% if api %}
+	{% if api == 'Error...' %}
+		<div class="card text-center">
+		  <div class="card-header">
+		    <STRONG>ERROR</STRONG>
+		  </div>
+		  <div class="card-body">
+		    <h5 class="card-title">Oops!! Error Occured</h5>
+		    <p class="card-text">Please Try again.</p>
+		  </div>
+		</div>
+
+	{% else %}
+
+		<h1>{{ api.companyName }}</h1> 
+		<h2>[{{api.symbol}}]</h2>
+		Latest Price : ${{ api.latestPrice }} at {{ api.latestTime }}<br>
+		Market Capital : {{ api.marketCap }}<br>
+		Previous Close : ${{ api.previousClose }} <br>
+		Previous Volume : {{ api.previousVolume }} <br>
+		YTD Change : {{ api.ytdChange }}<br>
+		52w High : ${{ api.week52High }} <br>
+		52w Low : ${{ api.week52Low }} <br>
+
+		<!--{% for key,value in api.items %}
+			{{ key }} : {{ value }}<br>
+			{% endfor %}-->
+
+	{% endif %}
+{% endif %}
+
+
+{% endblock %}}
